@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOSTYA RUNS V3 PRO | Next Generation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Play:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #a855f7;
+            --danger: #ff3b5c;
+            --success: #00ff88;
+            --warning: #ffd700;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0033 50%, #0d0015 100%);
+            color: var(--primary);
+            font-family: 'Play', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ==================== ГЛАВНОЕ МЕНЮ ==================== */
+        #mainMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0c1628 0%, #1a0033 50%, #2a0a4a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+            overflow-y: auto;
+            animation: menuFadeIn 0.8s ease-out;
+        }
+
+        @keyframes menuFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #mainMenu.hidden {
+            display: none;
+        }
+
+        .menu-hero {
+            margin-bottom: 30px;
+        }
+
+        .menuTitle {
+            font-size: 80px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px var(--primary), 0 0 40px var(--secondary), 0 0 60px #ff00ff;
+            font-family: 'Orbitron', monospace;
+            color: var(--primary);
+            animation: titleGlow 2s ease-in-out infinite;
+            letter-spacing: 3px;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px var(--primary), 0 0 40px var(--secondary); }
+            50% { text-shadow: 0 0 40px var(--primary), 0 0 80px var(--secondary), 0 0 100px #ff00ff; }
+        }
+
+        .menuVersion {
+            font-size: 18px;
+            color: var(--success);
+            margin-bottom: 30px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--success);
+        }
+
+        .menuSubtitle {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .menuDescription {
+            font-size: 16px;
+            max-width: 700px;
+            margin-bottom: 35px;
+            color: #cbd5e1;
+            line-height: 1.8;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+            border-right: 4px solid var(--secondary);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .menuButtons {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .menuBtn {
+            padding: 20px 60px;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(168, 85, 247, 0.2));
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            cursor: pointer;
+            border-radius: 14px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            min-width: 350px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menuBtn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .menuBtn:hover::before {
+            left: 100%;
+        }
+
+        .menuBtn:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.7), rgba(168, 85, 247, 0.7));
+            box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary), inset 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--secondary);
+        }
+
+        .menuBtn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .levelSelectContainer {
+            display: none;
+            flex-direction: column;
+            gap: 18px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--secondary);
+            min-width: 450px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .levelSelectContainer.active {
+            display: flex;
+        }
+
+        .levelSelectTitle {
+            color: var(--secondary);
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .levelBtn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(0, 212, 255, 0.1));
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .levelBtn::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.5));
+        }
+
+        .levelBtn:hover:not(.locked) {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(0, 212, 255, 0.4));
+            box-shadow: 0 0 20px var(--secondary);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .levelBtn.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: var(--danger);
+        }
+
+        .levelBtn.completed {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.1));
+        }
+
+        /* ==================== ИГРОВОЙ КОНТЕЙНЕР ==================== */
+        #gameContainer {
+            position: relative;
+            width: 1200px;
+            height: 700px;
+            background: linear-gradient(180deg, #0c1628 0%, #1a0033 50%, #0a0a1a 100%);
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary), inset 0 0 30px rgba(0, 212, 255, 0.1);
+            overflow: hidden;
+            display: none;
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
+        }
+
+        #gameContainer.active {
+            display: block;
+            animation: containerAppear 0.6s ease-out;
+        }
+
+        @keyframes containerAppear {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        /* ==================== ИГРОВОЙ UI ==================== */
+        #gameUI {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 25px;
+            align-items: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            z-index: 50;
+            font-size: 18px;
+        }
+
+        .uiSection {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(168, 85, 247, 0.1));
+            padding: 15px 25px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+            backdrop-filter: blur(5px);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .uiSection.center {
+            justify-self: center;
+            text-align: center;
+        }
+
+        .statItem {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+
+        .icon {
+            font-size: 24px;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        /* ==================== МЕНЮ ПАУЗЫ ==================== */
+        #pauseMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(168, 85, 247, 0.1));
+            padding: 50px;
+            border: 4px solid var(--primary);
+            border-radius: 16px;
+            z-index: 600;
+            display: none;
+            text-align: center;
+            min-width: 400px;
+            box-shadow: 0 0 50px var(--primary), 0 0 80px var(--secondary);
+            backdrop-filter: blur(10px);
+        }
+
+        #pauseMenu.active {
+            display: block;
+            animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .pauseTitle {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 15px var(--primary);
+        }
+
+        .pauseBtn {
+            display: block;
+            width: 100%;
+            margin: 12px 0;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(168, 85, 247, 0.2));
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s;
+        }
+
+        .pauseBtn:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.7), rgba(168, 85, 247, 0.5));
+            box-shadow: 0 0 20px var(--primary);
+            transform: translateX(-5px);
+        }
+
+        /* ==================== ЭКРАН КОНЦА ИГРЫ ==================== */
+        .gameOverScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(255, 59, 92, 0.1));
+            padding: 60px;
+            border: 4px solid var(--danger);
+            border-radius: 16px;
+            z-index: 500;
+            display: none;
+            text-align: center;
+            min-width: 500px;
+            box-shadow: 0 0 50px var(--danger), 0 0 80px rgba(255, 59, 92, 0.5);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .gameOverScreen.active {
+            display: block;
+        }
+
+        .gameOverScreen.victory {
+            border-color: var(--success);
+            box-shadow: 0 0 50px var(--success), 0 0 80px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 136, 0.1));
+        }
+
+        .gameOverTitle {
+            font-size: 56px;
+            color: var(--danger);
+            margin-bottom: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            text-shadow: 0 0 20px var(--danger);
+        }
+
+        .gameOverScreen.victory .gameOverTitle {
+            color: var(--success);
+            text-shadow: 0 0 20px var(--success);
+        }
+
+        .gameOverStats {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            margin: 25px 0;
+            color: var(--primary);
+        }
+
+        .gameOverStats div {
+            font-size: 20px;
+            margin: 12px 0;
+            text-shadow: 0 0 5px var(--secondary);
+        }
+
+        .gameOverBtns {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .gameOverBtn {
+            flex: 1;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: var(--dark-bg);
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .gameOverBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--primary), 0 0 40px var(--secondary);
+        }
+
+        /* ==================== ПРОГРЕСС БАР ==================== */
+        #progressBar {
+            position: absolute;
+            bottom: 130px;
+            left: 25px;
+            right: 25px;
+            height: 40px;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(168, 85, 247, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 40;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .progressFill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--warning));
+            width: 0%;
+            transition: width 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-bg);
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 5px var(--dark-bg);
+        }
+
+        .levelName {
+            position: absolute;
+            bottom: 180px;
+            left: 25px;
+            color: var(--secondary);
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 16px;
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        /* ==================== МОБИЛЬНЫЕ КНОПКИ ==================== */
+        #mobileControls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .mobileBtn {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.4), rgba(168, 85, 247, 0.3));
+            border: 2px solid var(--primary);
+            border-radius: 14px;
+            color: var(--primary);
+            font-size: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.15s;
+            user-select: none;
+            font-family: 'Orbitron', monospace;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .mobileBtn:active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.8), rgba(168, 85, 247, 0.7));
+            box-shadow: 0 0 30px var(--primary), inset 0 0 15px rgba(255, 255, 255, 0.2);
+            transform: scale(0.88);
+        }
+
+        /* ==================== ОТЗЫВЧИВЫЙ ДИЗАЙН ==================== */
+        @media (max-width: 1250px) {
+            #gameContainer {
+                width: calc(100vw - 20px);
+                height: calc(100vh - 100px);
+            }
+
+            .menuTitle {
+                font-size: 56px;
+            }
+
+            .menuBtn {
+                min-width: 280px;
+                font-size: 20px;
+            }
+
+            .mobileBtn {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            #gameContainer {
+                width: 100vw;
+                height: 100vh;
+                border: 2px solid var(--primary);
+            }
+
+            .menuTitle {
+                font-size: 42px;
+            }
+
+            .menuBtn {
+                min-width: 200px;
+                font-size: 16px;
+                padding: 15px 40px;
+            }
+
+            .mobileBtn {
+                width: 60px;
+                height: 60px;
+                font-size: 22px;
+            }
+
+            #gameUI {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                font-size: 14px;
+            }
+
+            .uiSection {
+                padding: 10px 15px;
+            }
+
+            #progressBar {
+                bottom: 110px;
+                height: 30px;
+                font-size: 12px;
+            }
+        }
+
+        /* ==================== OPTIMIZATION ==================== */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body, html {
+            will-change: transform;
+        }
+    </style>
+</head>
+<body>
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div id="mainMenu">
+        <div class="menu-hero">
+            <div class="menuTitle">🏃 KOSTYA RUNS 🏃</div>
+            <div class="menuVersion">▌ V3 PRO - NEXT GEN ENGINE ▌</div>
+            <div class="menuSubtitle">🔥 ULTIMATE ESCAPE SIMULATOR 🔥</div>
+        </div>
+        <div class="menuDescription">
+            ⚡ Новейший движок с профессиональной графикой<br>
+            🎬 Эпическая история в 3+ уровнях<br>
+            🎮 Аркадная механика с прогрессией<br>
+            💥 Динамичный геймплей от известных платформеров<br>
+            🏆 Система достижений и разблокировок
+        </div>
+        <div class="menuButtons">
+            <button class="menuBtn" onclick="showLevelSelect()">▶ ИГРАТЬ</button>
+            <button class="menuBtn" onclick="showRules()">📖 КАК ИГРАТЬ</button>
+            <button class="menuBtn" onclick="showStats()">📊 СТАТИСТИКА</button>
+        </div>
+        <div class="levelSelectContainer" id="levelSelectContainer">
+            <div class="levelSelectTitle">🎯 ВЫБЕРИТЕ УРОВЕНЬ:</div>
+            <button class="levelBtn" onclick="startGame(1)">🏦 УРОВЕНЬ 1: ПОБЕГ С БАНКА</button>
+            <button class="levelBtn" onclick="startGame(2)">🏙️ УРОВЕНЬ 2: ПО КРЫШАМ МОСКВЫ</button>
+            <button class="levelBtn" onclick="startGame(3)">👩 УРОВЕНЬ 3: ВСТРЕЧА С ДЕВУШКОЙ</button>
+            <button class="levelBtn locked" disabled>🔒 УРОВЕНЬ 4+ (в следующем обновлении)</button>
+            <button class="levelBtn" style="margin-top: 20px; background: linear-gradient(135deg, rgba(255, 59, 92, 0.3), rgba(0, 0, 0, 0.5)); border-color: var(--danger);" onclick="backToMenu(); document.getElementById('levelSelectContainer').classList.remove('active');">← НАЗАД</button>
+        </div>
+    </div>
+
+    <!-- ИГРОВОЙ КОНТЕЙНЕР -->
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- ИНТЕРФЕЙС ИГРЫ -->
+        <div id="gameUI">
+            <div class="uiSection">
+                <div class="statItem">
+                    <span class="icon">❤️</span>
+                    <span><span id="lives">3</span>/<span id="maxLives">3</span></span>
+                </div>
+            </div>
+            <div class="uiSection center">
+                <div style="font-size: 22px; text-shadow: 0 0 10px var(--primary);">УРОВЕНЬ <span id="currentLevel">1</span></div>
+            </div>
+            <div class="uiSection">
+                <div class="statItem">
+                    <span class="icon">💰</span>
+                    <span>€<span id="money">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ИМЯ УРОВНЯ -->
+        <div class="levelName" id="levelName">Уровень 1</div>
+
+        <!-- ПРОГРЕСС БАР -->
+        <div id="progressBar">
+            <div class="progressFill" id="progressFill">0%</div>
+        </div>
+
+        <!-- МЕНЮ ПАУЗЫ -->
+        <div id="pauseMenu">
+            <div class="pauseTitle">⏸ ПАУЗА</div>
+            <button class="pauseBtn" onclick="togglePause()">▶ ПРОДОЛЖИТЬ</button>
+            <button class="pauseBtn" onclick="restartLevel()">↻ ЗАНОВО</button>
+            <button class="pauseBtn" onclick="backToMenu(); gameRunning = false;">🏠 В МЕНЮ</button>
+        </div>
+
+        <!-- ЭКРАН КОНЦА ИГРЫ -->
+        <div class="gameOverScreen" id="gameOverScreen">
+            <div class="gameOverTitle" id="gameOverTitle">КОНЕЦ</div>
+            <div class="gameOverStats" id="gameOverStats">
+                <div>💰 Собрано денег: €<span id="finalMoney">0</span></div>
+                <div>⚔️ Враги разбиты: <span id="finalEnemies">0</span></div>
+                <div>🪙 Монеты: <span id="finalCoins">0</span></div>
+                <div id="finalMessage" style="margin-top: 15px; font-size: 18px; color: var(--success);"></div>
+            </div>
+            <div class="gameOverBtns">
+                <button class="gameOverBtn" onclick="restartLevel()">↻ ЗАНОВО</button>
+                <button class="gameOverBtn" onclick="backToMenu()">🏠 МЕНЮ</button>
+            </div>
+        </div>
+
+        <!-- МОБИЛЬНЫЕ КНОПКИ -->
+        <div id="mobileControls">
+            <button class="mobileBtn" id="btnLeft" title="Влево">◀</button>
+            <button class="mobileBtn" id="btnRight" title="Вправо">▶</button>
+            <button class="mobileBtn" id="btnJump" title="Прыжок">▲</button>
+            <button class="mobileBtn" id="btnDash" title="Рывок">◉</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== КОНФИГ И КОНСТАНТЫ ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        canvas.width = 1200;
+        canvas.height = 700;
+
+        // Переменные производительности
+        let frameCount = 0;
+        let lastFrameTime = Date.now();
+        let targetFPS = 60;
+        let deltaTime = 0;
+
+        const TILE_SIZE = 40;
+        const GRAVITY = 0.6;
+        const JUMP_FORCE = -11.5;
+        const MOVE_SPEED = 5.5;
+        const FRICTION_GROUND = 0.82;
+        const FRICTION_AIR = 0.96;
+        const DOUBLE_JUMP_FORCE = -10;
+
+        let gameRunning = false;
+        let gamePaused = false;
+        let currentLevel = 1;
+
+        // ==================== ЗАГРУЗКА ИЗОБРАЖЕНИЙ ====================
+        const PHOTO_URLS = {
+            kostyaConfident: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzMzMzMzMyIvPjwvc3ZnPg==',
+            samsonov: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmMzM0NCIvPjwvc3ZnPg==',
+            girlfriend: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmODg4OCIvPjwvc3ZnPg=='
+        };
+
+        const IMAGES = {};
+        Object.entries(PHOTO_URLS).forEach(([key, url]) => {
+            const img = new Image();
+            img.src = url;
+            IMAGES[key] = img;
+        });
+
+        // ==================== СОСТОЯНИЕ ИГРЫ ====================
+        let gameState = {
+            level: 1,
+            money: 0,
+            lives: 3,
+            maxLives: 3,
+            score: 0,
+            enemiesDefeated: 0,
+            coinsCollected: 0,
+            levelProgress: 0,
+            gameOver: false,
+            victory: false
+        };
+
+        // ==================== ПЕРСОНАЖ ====================
+        const player = {
+            x: 100,
+            y: 250,
+            width: 32,
+            height: 40,
+            velocityY: 0,
+            velocityX: 0,
+            jumping: false,
+            doubleJumpUsed: false,
+            onGround: false,
+            direction: 1,
+            animFrame: 0,
+            animCounter: 0,
+            dashing: false,
+            dashCooldown: 0
+        };
+
+        let enemies = [];
+        let coins = [];
+        let platforms = [];
+
+        // ==================== ЗВУКИ (WEB AUDIO API) ====================
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type, volume = 0.08) {
+            try {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                const sounds = {
+                    jump: { freq: 450, dur: 0.1, wave: 'sine' },
+                    coin: { freq: 900, dur: 0.12, wave: 'sine' },
+                    damage: { freq: 250, dur: 0.15, wave: 'sawtooth' },
+                    victory: { freq: 800, dur: 0.3, wave: 'sine' },
+                    enemyDeath: { freq: 600, dur: 0.15, wave: 'square' }
+                };
+
+                const sound = sounds[type] || sounds.coin;
+                osc.type = sound.wave;
+                osc.frequency.value = sound.freq;
+                gain.gain.value = volume;
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start();
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.dur);
+                osc.stop(audioContext.currentTime + sound.dur);
+            } catch (e) {
+                console.log('Sound error:', e);
+            }
+        }
+
+        // ==================== ФУНКЦИИ МЕНЮ ====================
+        function showLevelSelect() {
+            document.getElementById('levelSelectContainer').classList.add('active');
+        }
+
+        function backToMenu() {
+            gameRunning = false;
+            gamePaused = false;
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('gameContainer').classList.remove('active');
+            document.getElementById('gameOverScreen').classList.remove('active');
+            document.getElementById('pauseMenu').classList.remove('active');
+        }
+
+        function showRules() {
+            alert(`🎮 KOSTYA RUNS V3 PRO - ИНСТРУКЦИЯ
+
+📋 ЦЕЛЬ: Помогите Косте убежать и собрать деньги!
+
+⌨️ УПРАВЛЕНИЕ:
+• СТРЕЛКИ ВЛЕВО/ВПРАВО - движение
+• ПРОБЕЛ или СТРЕЛКА ВВЕРХ - прыжок
+• Двойной прыжок - жми дважды!
+• P - пауза
+• МОБИЛЬ: кнопки внизу
+
+💡 СОВЕТЫ:
+✓ Прыгай на врагов сверху для победы
+✓ Собирай все монеты для бонусов
+✓ Избегай врагов в лицо - урон!
+✓ Смотри на прогресс-бар внизу
+✓ Достигни 100% для победы
+
+🏆 ВРАГИ:
+🚔 Копы - 1 удар
+👹 Самсонов - 2 удара
+⚔️ Босс - множественные удары`);
+        }
+
+        function showStats() {
+            const stats = localStorage.getItem('gameStats');
+            const parsed = stats ? JSON.parse(stats) : { levels: {}, totalMoney: 0, gamesPlayed: 0 };
+            
+            alert(`📊 ТВОЯ СТАТИСТИКА
+
+🎮 Игр сыграно: ${parsed.gamesPlayed || 0}
+💰 Всего собрано: €${parsed.totalMoney || 0}
+
+УРОВНИ:
+Уровень 1: ${parsed.levels[1] ? '✅ ПРОЙДЕН' : '❌ НЕ ПРОЙДЕН'}
+Уровень 2: ${parsed.levels[2] ? '✅ ПРОЙДЕН' : '❌ НЕ ПРОЙДЕН'}
+Уровень 3: ${parsed.levels[3] ? '✅ ПРОЙДЕН' : '❌ НЕ ПРОЙДЕН'}`);
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ УРОВНЕЙ ====================
+        function initializeLevel(levelNum) {
+            currentLevel = levelNum;
+            gameState.level = levelNum;
+            gameState.money = 0;
+            gameState.lives = 3;
+            gameState.maxLives = 3;
+            gameState.score = 0;
+            gameState.enemiesDefeated = 0;
+            gameState.coinsCollected = 0;
+            gameState.levelProgress = 0;
+            gameState.gameOver = false;
+            gameState.victory = false;
+
+            player.x = 100;
+            player.y = 350;
+            player.velocityY = 0;
+            player.velocityX = 0;
+            player.jumping = false;
+            player.doubleJumpUsed = false;
+            player.onGround = false;
+            player.direction = 1;
+            player.dashing = false;
+            player.dashCooldown = 0;
+
+            enemies = [];
+            coins = [];
+            platforms = [];
+
+            // УРОВЕНЬ 1
+            if (levelNum === 1) {
+                document.getElementById('levelName').textContent = '🏦 УРОВЕНЬ 1: ПОБЕГ С БАНКА';
+
+                // Земля
+                for (let x = 0; x < canvas.width; x += TILE_SIZE) {
+                    platforms.push({ x, y: canvas.height - 60, width: TILE_SIZE, height: 60, solid: true });
+                }
+
+                // Платформы
+                platforms.push({ x: 200, y: 550, width: 280, height: 25, solid: true });
+                platforms.push({ x: 600, y: 450, width: 240, height: 25, solid: true });
+                platforms.push({ x: 150, y: 350, width: 200, height: 25, solid: true });
+                platforms.push({ x: 900, y: 500, width: 280, height: 25, solid: true });
+
+                // Враги
+                enemies.push({ x: 350, y: 490, width: 35, height: 35, vx: 2.5, minX: 200, maxX: 500, type: 'cop', health: 1 });
+                enemies.push({ x: 700, y: 390, width: 35, height: 35, vx: 3, minX: 600, maxX: 850, type: 'cop', health: 1 });
+                enemies.push({ x: 250, y: 290, width: 35, height: 35, vx: 2, minX: 150, maxX: 400, type: 'cop', health: 1 });
+
+                // Монеты
+                for (let i = 0; i < 8; i++) {
+                    coins.push({ 
+                        x: 150 + i * 130, 
+                        y: 150 + Math.random() * 300, 
+                        collected: false, 
+                        value: 100 
+                    });
+                }
+
+                // Финиш
+                platforms.push({ x: 1050, y: 450, width: 150, height: 25, solid: true, isFinish: true });
+            }
+
+            // УРОВЕНЬ 2
+            if (levelNum === 2) {
+                document.getElementById('levelName').textContent = '🏙️ УРОВЕНЬ 2: ПО КРЫШАМ МОСКВЫ';
+
+                for (let x = 0; x < canvas.width; x += TILE_SIZE) {
+                    platforms.push({ x, y: canvas.height - 60, width: TILE_SIZE, height: 60, solid: true });
+                }
+
+                platforms.push({ x: 100, y: 550, width: 250, height: 25, solid: true });
+                platforms.push({ x: 400, y: 450, width: 250, height: 25, solid: true });
+                platforms.push({ x: 700, y: 350, width: 250, height: 25, solid: true });
+                platforms.push({ x: 200, y: 250, width: 280, height: 25, solid: true });
+                platforms.push({ x: 900, y: 200, width: 250, height: 25, solid: true });
+
+                enemies.push({ x: 200, y: 490, width: 35, height: 35, vx: 2.8, minX: 100, maxX: 400, type: 'cop', health: 1 });
+                enemies.push({ x: 500, y: 390, width: 35, height: 35, vx: 3.2, minX: 400, maxX: 700, type: 'cop', health: 1 });
+                enemies.push({ x: 800, y: 290, width: 35, height: 35, vx: 3, minX: 700, maxX: 950, type: 'cop', health: 1 });
+                enemies.push({ x: 400, y: 190, width: 40, height: 40, vx: 2.5, minX: 200, maxX: 550, type: 'samsonov', health: 2 });
+
+                for (let i = 0; i < 10; i++) {
+                    coins.push({ 
+                        x: 100 + i * 110, 
+                        y: 100 + Math.random() * 350, 
+                        collected: false, 
+                        value: 150 
+                    });
+                }
+
+                platforms.push({ x: 1000, y: 200, width: 200, height: 25, solid: true, isFinish: true });
+            }
+
+            // УРОВЕНЬ 3
+            if (levelNum === 3) {
+                document.getElementById('levelName').textContent = '👩 УРОВЕНЬ 3: ВСТРЕЧА С ДЕВУШКОЙ';
+
+                for (let x = 0; x < canvas.width; x += TILE_SIZE) {
+                    platforms.push({ x, y: canvas.height - 60, width: TILE_SIZE, height: 60, solid: true });
+                }
+
+                platforms.push({ x: 50, y: 550, width: 280, height: 25, solid: true });
+                platforms.push({ x: 350, y: 450, width: 250, height: 25, solid: true });
+                platforms.push({ x: 650, y: 350, width: 250, height: 25, solid: true });
+                platforms.push({ x: 250, y: 250, width: 320, height: 25, solid: true });
+                platforms.push({ x: 900, y: 300, width: 250, height: 25, solid: true });
+
+                enemies.push({ x: 200, y: 490, width: 40, height: 40, vx: 3, minX: 50, maxX: 350, type: 'samsonov', health: 2 });
+                enemies.push({ x: 500, y: 390, width: 35, height: 35, vx: 3.2, minX: 350, maxX: 650, type: 'cop', health: 1 });
+                enemies.push({ x: 800, y: 290, width: 35, height: 35, vx: 3.5, minX: 650, maxX: 950, type: 'cop', health: 1 });
+                enemies.push({ x: 400, y: 190, width: 40, height: 40, vx: 3, minX: 250, maxX: 600, type: 'samsonov', health: 2 });
+
+                for (let i = 0; i < 12; i++) {
+                    coins.push({ 
+                        x: 50 + i * 95, 
+                        y: 100 + Math.random() * 350, 
+                        collected: false, 
+                        value: 200 
+                    });
+                }
+
+                platforms.push({ x: 1000, y: 250, width: 200, height: 25, solid: true, isFinish: true });
+            }
+        }
+
+        // ==================== УПРАВЛЕНИЕ ====================
+        const keys = {};
+        window.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            if (e.key === ' ' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                playerJump();
+            }
+            if (e.key === 'p' || e.key === 'P') {
+                togglePause();
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        // Мобильные кнопки
+        const mobileButtonSetup = (btnId, keyName) => {
+            const btn = document.getElementById(btnId);
+            const startHandler = () => { keys[keyName] = true; };
+            const endHandler = () => { keys[keyName] = false; };
+            
+            btn.addEventListener('touchstart', (e) => { e.preventDefault(); startHandler(); });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); endHandler(); });
+            btn.addEventListener('mousedown', startHandler);
+            btn.addEventListener('mouseup', endHandler);
+        };
+
+        mobileButtonSetup('btnLeft', 'left');
+        mobileButtonSetup('btnRight', 'right');
+
+        document.getElementById('btnJump').addEventListener('touchstart', (e) => { e.preventDefault(); playerJump(); });
+        document.getElementById('btnJump').addEventListener('mousedown', playerJump);
+
+        function playerJump() {
+            if (!gameRunning || gamePaused || gameState.gameOver) return;
+            
+            if (player.onGround) {
+                player.velocityY = JUMP_FORCE;
+                player.onGround = false;
+                player.doubleJumpUsed = false;
+                playSound('jump');
+            } else if (!player.doubleJumpUsed && currentLevel >= 2) {
+                player.velocityY = DOUBLE_JUMP_FORCE;
+                player.doubleJumpUsed = true;
+                playSound('jump');
+            }
+        }
+
+        function togglePause() {
+            if (!gameRunning || gameState.gameOver) return;
+            gamePaused = !gamePaused;
+            document.getElementById('pauseMenu').classList.toggle('active');
+        }
+
+        function restartLevel() {
+            gameRunning = true;
+            gamePaused = false;
+            document.getElementById('gameOverScreen').classList.remove('active');
+            document.getElementById('pauseMenu').classList.remove('active');
+            initializeLevel(currentLevel);
+        }
+
+        // ==================== ФУНКЦИИ ИГРЫ ====================
+        function startGame(levelNum) {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('gameContainer').classList.add('active');
+            document.getElementById('levelSelectContainer').classList.remove('active');
+            gameRunning = true;
+            gamePaused = false;
+            
+            initializeLevel(levelNum);
+        }
+
+        function updateGame() {
+            if (!gameRunning || gamePaused || gameState.gameOver) return;
+
+            // Физика
+            player.velocityY += GRAVITY;
+            
+            let targetVelX = 0;
+            if (keys['ArrowLeft'] || keys['left']) {
+                targetVelX = -MOVE_SPEED;
+                player.direction = -1;
+            } else if (keys['ArrowRight'] || keys['right']) {
+                targetVelX = MOVE_SPEED;
+                player.direction = 1;
+            }
+
+            player.velocityX += (targetVelX - player.velocityX) * 0.18;
+            if (Math.abs(targetVelX) === 0) {
+                player.velocityX *= (player.onGround ? FRICTION_GROUND : FRICTION_AIR);
+            }
+
+            player.x += player.velocityX;
+            player.y += player.velocityY;
+
+            // Границы
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            player.onGround = false;
+
+            // Платформы
+            platforms.forEach(platform => {
+                if (player.velocityY >= 0 &&
+                    player.y + player.height >= platform.y &&
+                    player.y + player.height <= platform.y + platform.height + 12 &&
+                    player.x + player.width > platform.x &&
+                    player.x < platform.x + platform.width) {
+                    player.velocityY = 0;
+                    player.y = platform.y - player.height;
+                    player.onGround = true;
+                    player.doubleJumpUsed = false;
+
+                    if (platform.isFinish) {
+                        gameState.levelProgress = 100;
+                    }
+                }
+            });
+
+            // Враги
+            enemies.forEach((enemy, idx) => {
+                enemy.x += enemy.vx;
+                if (enemy.x <= enemy.minX || enemy.x + enemy.width >= enemy.maxX) {
+                    enemy.vx *= -1;
+                }
+
+                // Столкновение
+                if (checkCollision(player, enemy)) {
+                    if (player.velocityY > 1 && player.y + player.height - Math.abs(player.velocityY) <= enemy.y) {
+                        // Прыжок на врага
+                        enemy.health--;
+                        if (enemy.health <= 0) {
+                            enemies.splice(idx, 1);
+                            gameState.enemiesDefeated++;
+                            gameState.score += 500;
+                            playSound('enemyDeath');
+                        }
+                        player.velocityY = JUMP_FORCE * 0.7;
+                    } else {
+                        // Урон
+                        gameState.lives--;
+                        playSound('damage');
+                        if (gameState.lives <= 0) {
+                            endGame(false);
+                        } else {
+                            player.x = 100;
+                            player.y = 350;
+                            player.velocityY = 0;
+                            player.velocityX = 0;
+                        }
+                    }
+                }
+            });
+
+            // Монеты
+            coins.forEach(coin => {
+                if (!coin.collected && checkCollisionPoint(player, coin.x, coin.y, 20)) {
+                    coin.collected = true;
+                    gameState.money += coin.value;
+                    gameState.coinsCollected++;
+                    gameState.score += coin.value;
+                    playSound('coin');
+                }
+            });
+
+            // Падение
+            if (player.y > canvas.height) {
+                gameState.lives--;
+                playSound('damage');
+                if (gameState.lives <= 0) {
+                    endGame(false);
+                } else {
+                    player.x = 100;
+                    player.y = 350;
+                    player.velocityY = 0;
+                }
+            }
+
+            // Прогресс
+            const finishX = Math.max(...platforms.filter(p => p.isFinish).map(p => p.x), 1000);
+            gameState.levelProgress = Math.min(100, Math.round((player.x / finishX) * 100));
+
+            // Проверка победы
+            platforms.forEach(platform => {
+                if (platform.isFinish && checkCollision(player, platform) && player.onGround) {
+                    endGame(true);
+                }
+            });
+
+            // UI обновление
+            document.getElementById('lives').textContent = gameState.lives;
+            document.getElementById('money').textContent = gameState.money;
+            document.getElementById('progressFill').style.width = gameState.levelProgress + '%';
+            document.getElementById('progressFill').textContent = gameState.levelProgress + '%';
+        }
+
+        function checkCollision(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                   rect1.x + rect1.width > rect2.x &&
+                   rect1.y < rect2.y + rect2.height &&
+                   rect1.y + rect1.height > rect2.y;
+        }
+
+        function checkCollisionPoint(rect, px, py, radius) {
+            return Math.hypot(rect.x + rect.width/2 - px, rect.y + rect.height/2 - py) < radius;
+        }
+
+        function drawGame() {
+            // Чистый фон
+            ctx.fillStyle = '#0c1628';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Градиент
+            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            grad.addColorStop(0, 'rgba(12, 22, 40, 0)');
+            grad.addColorStop(1, 'rgba(26, 0, 51, 0.4)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Сетка (декорация)
+            ctx.strokeStyle = 'rgba(0, 212, 255, 0.05)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += TILE_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            // Платформы
+            platforms.forEach(platform => {
+                // Основной цвет
+                ctx.fillStyle = platform.isFinish ? '#ffd700' : '#00d4ff';
+                ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+
+                // Бордер
+                ctx.strokeStyle = platform.isFinish ? '#ffed4e' : '#a855f7';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
+
+                // Свечение для финиша
+                if (platform.isFinish) {
+                    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = '#ffed4e';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(platform.x - 5, platform.y - 5, platform.width + 10, platform.height + 10);
+                    ctx.shadowColor = 'transparent';
+                }
+            });
+
+            // Враги
+            enemies.forEach(enemy => {
+                ctx.fillStyle = enemy.type === 'samsonov' ? '#ff6b6b' : '#ff3b5c';
+                
+                // Тело
+                ctx.fillRect(enemy.x + 5, enemy.y + 10, 25, 20);
+                
+                // Голова
+                ctx.beginPath();
+                ctx.arc(enemy.x + 17.5, enemy.y + 8, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Глаза
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(enemy.x + 12, enemy.y + 5, 3, 3);
+                ctx.fillRect(enemy.x + 20, enemy.y + 5, 3, 3);
+
+                // Health indicator
+                if (enemy.health > 1) {
+                    ctx.fillStyle = '#ffd700';
+                    for (let i = 0; i < enemy.health; i++) {
+                        ctx.fillRect(enemy.x + 8 + i * 5, enemy.y - 8, 4, 3);
+                    }
+                }
+            });
+
+            // Монеты
+            coins.forEach(coin => {
+                if (!coin.collected) {
+                    ctx.fillStyle = '#ffd700';
+                    ctx.beginPath();
+                    ctx.arc(coin.x, coin.y, 8, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = '#ffed4e';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // Блеск
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(coin.x - 2, coin.y - 2, 3, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            });
+
+            // ПЕРСОНАЖ
+            ctx.save();
+            ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
+            
+            if (player.direction === -1) {
+                ctx.scale(-1, 1);
+            }
+
+            // Ноги (анимация)
+            player.animCounter++;
+            const legOffset = Math.sin(player.animCounter * 0.1) * 2;
+            
+            ctx.fillStyle = '#a855f7';
+            ctx.fillRect(-8, 12, 6, 10 + legOffset);
+            ctx.fillRect(2, 12, 6, 10 - legOffset);
+
+            // Тело
+            ctx.fillRect(-8, 0, 16, 14);
+
+            // Голова
+            ctx.fillStyle = '#ff8899';
+            ctx.beginPath();
+            ctx.arc(0, -10, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Глаза
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(-5, -12, 3, 3);
+            ctx.fillRect(2, -12, 3, 3);
+
+            // Улыбка
+            if (gameState.victory) {
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(0, -8, 3, 0, Math.PI);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+        }
+
+        function endGame(won) {
+            gameRunning = false;
+            gameState.gameOver = true;
+            gameState.victory = won;
+
+            const screen = document.getElementById('gameOverScreen');
+            const title = document.getElementById('gameOverTitle');
+            const message = document.getElementById('finalMessage');
+
+            if (won) {
+                screen.classList.add('victory');
+                title.textContent = '🎉 ПОБЕДА! 🎉';
+                message.textContent = `✅ Уровень ${currentLevel} пройден!`;
+                playSound('victory');
+
+                // Сохраняем статистику
+                let stats = JSON.parse(localStorage.getItem('gameStats') || '{"levels":{}, "totalMoney": 0, "gamesPlayed": 0}');
+                stats.levels[currentLevel] = true;
+                stats.totalMoney += gameState.money;
+                stats.gamesPlayed++;
+                localStorage.setItem('gameStats', JSON.stringify(stats));
+            } else {
+                screen.classList.remove('victory');
+                title.textContent = '💀 КОНЕЦ 💀';
+                message.textContent = '❌ Костю поймали! Попробуй снова!';
+                playSound('damage');
+            }
+
+            document.getElementById('finalMoney').textContent = gameState.money;
+            document.getElementById('finalEnemies').textContent = gameState.enemiesDefeated;
+            document.getElementById('finalCoins').textContent = gameState.coinsCollected;
+
+            screen.classList.add('active');
+        }
+
+        // ==================== ГЛАВНОЙ ЦИКЛ ====================
+        function gameLoop() {
+            updateGame();
+            drawGame();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+
+        // Оптимизация памяти
+        window.addEventListener('beforeunload', () => {
+            gameRunning = false;
+        });
+    </script>
+</body>
+</html>
