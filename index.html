@@ -3,56 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Leaderboard</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <title>Kostya Runs</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Online Leaderboard</h1>
-    <h2>Player Registration</h2>
-    <form id="registrationForm">
-        <input type="text" id="playerName" placeholder="Enter player name" required>
-        <button type="submit">Register</button>
-    </form>
-    <h2>Leaderboard</h2>
-    <table id="leaderboard">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div id="game">
+        <!-- Original game code goes here -->
+        <!-- For demonstration, here's sample placeholders -->
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        <button id="submitScore">Submit Score</button>
+    </div>
+    <div id="leaderboardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Leaderboard</h2>
+            <ol id="leaderboard"></ol>
+        </div>
+    </div>
     <script>
-        const leaderboard = [];
-        const registrationForm = document.getElementById('registrationForm');
-        const leaderboardTableBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+        // Original game logic here
 
-        registrationForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const playerName = document.getElementById('playerName').value;
-            const playerScore = Math.floor(Math.random() * 100); // Simulated score
-            leaderboard.push({name: playerName, score: playerScore});
-            updateLeaderboard();
-        });
+        // Score tracking
+        let score = 0;
 
-        function updateLeaderboard() {
+        // LocalStorage for leaderboard
+        function saveScore(username, score) {
+            let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+            leaderboard.push({username, score});
             leaderboard.sort((a, b) => b.score - a.score);
-            leaderboardTableBody.innerHTML = ''; // Clear previous data
-            leaderboard.forEach((player, index) => {
-                const row = leaderboardTableBody.insertRow();
-                row.insertCell(0).textContent = index + 1;
-                row.insertCell(1).textContent = player.name;
-                row.insertCell(2).textContent = player.score;
+            leaderboard = leaderboard.slice(0, 10);
+            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+            displayLeaderboard();
+        }
+
+        function displayLeaderboard() {
+            const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+            const leaderboardElement = document.getElementById('leaderboard');
+            leaderboardElement.innerHTML = '';
+            leaderboard.forEach(entry => {
+                const li = document.createElement('li');
+                li.textContent = `${entry.username}: ${entry.score}`;
+                leaderboardElement.appendChild(li);
             });
         }
+
+        document.getElementById('submitScore').addEventListener('click', () => {
+            const username = prompt('Enter your name:');
+            if (username) {
+                saveScore(username, score);
+            }
+        });
+
+        // Logic to open and close the leaderboard modal
+
+        // Event listeners to handle modal display
     </script>
 </body>
 </html>
