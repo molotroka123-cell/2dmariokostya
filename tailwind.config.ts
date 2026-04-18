@@ -5,17 +5,44 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: "#f5f3ff",
-          100: "#ede9fe",
-          500: "#8b5cf6",
-          600: "#7c3aed",
-          700: "#6d28d9",
-          900: "#4c1d95",
+        bg: "var(--bg)",
+        card: "var(--card)",
+        "card-elev": "var(--card-elev)",
+        beige: {
+          DEFAULT: "var(--beige)",
+          soft: "var(--beige-soft)",
+          hi: "var(--beige-hi)",
         },
+        gold: {
+          DEFAULT: "var(--gold)",
+          deep: "var(--gold-deep)",
+          soft: "var(--gold-soft)",
+          tint: "var(--gold-tint)",
+        },
+        ink: "var(--ink)",
+        body: "var(--body)",
+        muted: "var(--muted)",
+        faint: "var(--faint)",
+        divider: "var(--divider)",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-cormorant)", '"Playfair Display"', '"Times New Roman"', "serif"],
+        sans: [
+          "var(--font-inter)",
+          "-apple-system",
+          '"SF Pro Display"',
+          "system-ui",
+          "sans-serif",
+        ],
+      },
+      borderRadius: {
+        "2xl": "20px",
+        "3xl": "28px",
+      },
+      boxShadow: {
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        cta: "var(--shadow-cta)",
       },
     },
   },

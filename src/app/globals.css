@@ -3,23 +3,146 @@
 @tailwind utilities;
 
 :root {
-  --background: #0b0b12;
-  --foreground: #f6f5ff;
+  --bg: #FBF8F3;
+  --card: #FFFFFF;
+  --card-elev: #FFFFFF;
+  --beige: #F3E7D4;
+  --beige-soft: #F8EFE0;
+  --beige-hi: #FAF1DD;
+  --gold: #B8873C;
+  --gold-deep: #A17530;
+  --gold-soft: #D9B177;
+  --gold-tint: #EBD5B0;
+  --ink: #1F1E1C;
+  --body: #3B3A37;
+  --muted: #8C8579;
+  --faint: #BFB8AB;
+  --divider: rgba(40, 30, 20, 0.06);
+  --input-bg: #FBF8F3;
+  --shadow-sm: 0 1px 2px rgba(40, 28, 10, 0.04), 0 4px 14px rgba(40, 28, 10, 0.05);
+  --shadow-md: 0 2px 4px rgba(40, 28, 10, 0.05), 0 10px 28px rgba(40, 28, 10, 0.07);
+  --shadow-cta: 0 6px 18px rgba(184, 135, 60, 0.35), 0 2px 4px rgba(184, 135, 60, 0.25);
+  --cta-ink: #ffffff;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: #fafafa;
-    --foreground: #111018;
+    --bg: #14110E;
+    --card: #1E1A15;
+    --card-elev: #2A241D;
+    --beige: #2E2821;
+    --beige-soft: #24201B;
+    --beige-hi: #3A2F22;
+    --gold: #D4A85A;
+    --gold-deep: #B8873C;
+    --gold-soft: #E3C28A;
+    --gold-tint: #3E332A;
+    --ink: #F5EFE4;
+    --body: #D8CFBE;
+    --muted: #8F8676;
+    --faint: #5A5348;
+    --divider: rgba(245, 230, 200, 0.08);
+    --input-bg: #26211B;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.35);
+    --shadow-cta: 0 6px 18px rgba(212, 168, 90, 0.3), 0 2px 4px rgba(212, 168, 90, 0.2);
+    --cta-ink: #1a1410;
   }
 }
 
 html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), -apple-system, "SF Pro Display", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+@layer components {
+  .au-card {
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    border-radius: 28px;
+    padding: 1rem;
+  }
+
+  .au-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
+    width: 100%;
+    border-radius: 1rem;
+    background: var(--gold);
+    color: var(--cta-ink);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    box-shadow: var(--shadow-cta);
+    transition: transform 0.1s, background 0.15s;
+  }
+  .au-cta:active {
+    transform: scale(0.99);
+    background: var(--gold-deep);
+  }
+  .au-cta:disabled {
+    opacity: 0.6;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .au-input {
+    height: 3rem;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--divider);
+    background: var(--input-bg);
+    padding: 0 0.875rem;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .au-input::placeholder {
+    color: var(--muted);
+  }
+  .au-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 20%, transparent);
+  }
+
+  .au-step {
+    display: inline-flex;
+    height: 1.75rem;
+    width: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: var(--gold);
+    color: var(--cta-ink);
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(184, 135, 60, 0.35);
+  }
+
+  .au-eyebrow {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .au-serif-title {
+    font-family: var(--font-cormorant), "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 1.05;
+    color: var(--ink);
+  }
 }
