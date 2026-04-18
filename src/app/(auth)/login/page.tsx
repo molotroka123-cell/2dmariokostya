@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { LoginForm } from "@/components/login-form";
 
 export default function LoginPage() {
@@ -10,7 +12,9 @@ export default function LoginPage() {
             Используйте учётную запись администратора или мастера.
           </p>
         </div>
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
       </div>
     </main>
   );

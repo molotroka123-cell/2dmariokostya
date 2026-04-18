@@ -1,10 +1,12 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import type { Adapter } from "next-auth/adapters";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
+import { authConfig } from "@/lib/auth.config";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -12,11 +14,8 @@ const credentialsSchema = z.object({
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-  },
+  ...authConfig,
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     Credentials({
       name: "Email и пароль",
@@ -45,18 +44,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as { role?: string }).role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user && token.role) {
-        (session.user as { role?: string }).role = token.role as string;
-      }
-      return session;
-    },
-  },
 });
