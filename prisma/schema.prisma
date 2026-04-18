@@ -1,0 +1,126 @@
+// VreahVibes — модель данных для записи клиентов
+// Подробнее: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  passwordHash String
+  role         Role      @default(STAFF)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  services Service[]
+  bookings Booking[] @relation("BookingStaff")
+  sessions Session[]
+  accounts Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  bookings Booking[]
+
+  @@index([phone])
+  @@index([email])
+}
+
+model Service {
+  id              String  @id @default(cuid())
+  title           String
+  description     String?
+  durationMinutes Int     @default(60)
+  priceCents      Int     @default(0)
+  active          Boolean @default(true)
+
+  createdBy   User?   @relation(fields: [createdById], references: [id])
+  createdById String?
+
+  bookings Booking[]
+}
+
+model Booking {
+  id        String        @id @default(cuid())
+  startsAt  DateTime
+  endsAt    DateTime
+  status    BookingStatus @default(PENDING)
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId String
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String
+
+  staff   User?   @relation("BookingStaff", fields: [staffId], references: [id])
+  staffId String?
+
+  @@index([startsAt])
+  @@index([status])
+}
